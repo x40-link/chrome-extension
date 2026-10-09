@@ -1,0 +1,18 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>x40 Short Link</title><link rel="stylesheet" href="theme.css"></head>
+<body><main class="shell">
+  <header class="header"><img src="icons/icon32.png" alt="" width="32" height="32"><div><p class="eyebrow">x40</p><h1 id="heading">Create a short link</h1></div><button id="settings-toggle" class="icon-button" type="button" aria-label="Settings" title="Settings">⚙</button></header>
+  <section id="setup" hidden aria-labelledby="setup-heading"><h2 id="setup-heading">First use</h2><p class="hint">Set an API origin, short domain, and CreateShortLink token to begin.</p></section>
+  <form id="settings-form" hidden novalidate><label for="api-base">API base URL</label><input id="api-base" type="url" spellcheck="false" autocomplete="url"><p class="field-error" id="api-base-error" role="alert"></p>
+    <label for="default-domain">Default short domain</label><input id="default-domain" type="text" spellcheck="false" autocapitalize="off"><p class="field-error" id="default-domain-error" role="alert"></p>
+    <label for="token">Bearer token</label><input id="token" type="password" autocomplete="off" spellcheck="false" aria-describedby="token-help"><p id="token-help" class="hint">Paste a bearer token that authorizes CreateShortLink. This extension cannot issue tokens.</p><p class="field-error" id="token-error" role="alert"></p>
+    <p id="stored-token" class="hint" hidden>A token is saved for this instance. Leave blank to keep it.</p><p class="hint">The browser asks for access to self-hosted API hosts. Clipboard access copies the returned link. The development token is stored locally without encryption.</p>
+    <div class="actions"><button id="save" class="primary" type="submit">Save settings</button><button id="signout" class="text-button danger" type="button">Sign out / reset</button></div>
+  </form>
+  <form id="create-form" hidden novalidate><label for="destination">Destination URL</label><input id="destination" type="url" spellcheck="false" autocomplete="url" placeholder="https://example.org/article"><p class="field-error" id="destination-error" role="alert"></p>
+    <label for="domain">Short domain</label><input id="domain" type="text" spellcheck="false" autocapitalize="off"><p class="field-error" id="domain-error" role="alert"></p>
+    <label for="slug">Slug <span class="optional">optional</span></label><input id="slug" type="text" spellcheck="false" autocapitalize="off" aria-describedby="slug-help"><p id="slug-help" class="hint">A custom path may already be taken. Leave empty for a generated path.</p><p class="field-error" id="slug-error" role="alert"></p>
+    <p id="form-error" class="banner error" role="alert" hidden></p><button id="create" class="primary full" type="submit">Create short link</button>
+  </form>
+  <section id="result" class="result" hidden aria-live="polite"><h2>Short link ready</h2><a id="short-url" href="#" target="_blank" rel="noopener noreferrer"></a><p id="copy-status" class="hint"></p><div class="actions"><button id="copy" type="button" class="secondary">Copy</button><button id="open" type="button" class="secondary">Open</button></div></section>
+  <p id="status" class="sr-only" aria-live="polite"></p>
+  </main><script type="module" src="popup.js"></script></body></html>

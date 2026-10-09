@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "x40 Short Link",
+  "version": "0.1.0",
+  "minimum_chrome_version": "116",
+  "description": "Create x40 short links from a page, a link, or the toolbar.",
+  "permissions": ["contextMenus", "storage", "notifications", "activeTab", "offscreen", "clipboardWrite"],
+  "host_permissions": ["https://api.x40.link/*"],
+  "optional_host_permissions": ["https://*/*"],
+  "background": {"service_worker": "worker.js", "type": "module"},
+  "action": {"default_popup": "popup.html", "default_icon": {"16":"icons/icon16.png", "32":"icons/icon32.png"}},
+  "icons": {"16":"icons/icon16.png", "32":"icons/icon32.png", "48":"icons/icon48.png", "128":"icons/icon128.png"},
+  "content_security_policy": {"extension_pages": "script-src 'self'; object-src 'self'"}
+}

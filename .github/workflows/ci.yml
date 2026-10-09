@@ -1,0 +1,39 @@
+name: Validate extension
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.19.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - uses: go-task/setup-task@v2
+        with:
+          version: 3.50.0
+      - name: Setup
+        run: task setup
+      - name: Browser dependencies
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Validate
+        run: task validate
+      - name: Review resources
+        run: task package
+      - name: Upload review resources
+        uses: actions/upload-artifact@v4
+        with:
+          name: x40-extension-review
+          path: |
+            assets/store/*.png
+            release/x40-review-only.zip
+          if-no-files-found: error
