@@ -1,0 +1,10 @@
+node_modules/
+dist/
+release/
+.playwright/
+.task/
+assets/icons/
+assets/store/
+contract/short_link.openapi.json
+contract/http.md
+contract/short_link.proto

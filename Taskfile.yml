@@ -1,0 +1,84 @@
+version: '3'
+
+tasks:
+  setup:
+    desc: Install pinned development dependencies and Chromium.
+    cmds:
+      - pnpm install --frozen-lockfile
+      - pnpm exec playwright install chromium
+
+  generate:
+    desc: Generate the pinned contract fixture and raster icons.
+    deps:
+      - generate:contract
+      - generate:icons
+
+  generate:contract:
+    desc: Fetch and verify the pinned API contract without contacting a live API.
+    cmds:
+      - node scripts/fetch-contract.mjs
+
+  generate:icons:
+    desc: Render icon PNGs from the committed SVG.
+    cmds:
+      - node scripts/generate-icons.mjs
+
+  contract:refresh:
+    desc: Re-fetch the pinned API files and verify their hashes.
+    cmds:
+      - node scripts/fetch-contract.mjs --force
+
+  build:
+    desc: Compile the production extension.
+    cmds:
+      - task generate:icons
+      - pnpm build
+
+  build:dev:
+    desc: Compile the unpacked development extension with loopback support.
+    cmds:
+      - task generate:icons
+      - pnpm build:dev
+
+  mock:
+    desc: Run the nonproduction CreateShortLink HTTP mock.
+    cmds:
+      - pnpm mock
+
+  lint:
+    desc: Typecheck and run source checks.
+    cmds:
+      - pnpm lint
+
+  test:
+    desc: Run pinned contract, adapter, validation, and worker tests.
+    cmds:
+      - task generate
+      - pnpm test
+
+  browser:
+    desc: Run unpacked Chromium journeys against the local mock.
+    cmds:
+      - task generate:icons
+      - pnpm test:browser
+
+  validate:
+    desc: Run all checks and leave a production build in dist/.
+    cmds:
+      - task lint
+      - task test
+      - task browser
+      - task build
+
+  screenshots:
+    desc: Capture 1280x800 review screenshots from the development build.
+    cmds:
+      - task build:dev
+      - node scripts/capture-store.mjs
+
+  package:
+    desc: Generate screenshots and a review-only production ZIP.
+    cmds:
+      - task screenshots
+      - task build
+      - node scripts/release.mjs

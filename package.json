@@ -1,0 +1,24 @@
+{
+  "name": "x40-chrome-extension",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "packageManager": "pnpm@11.19.0",
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node scripts/package.mjs",
+    "build:dev": "tsc -p tsconfig.json && node scripts/package.mjs --dev",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "node scripts/lint.mjs",
+    "test": "tsc -p tsconfig.json && node scripts/package.mjs && node --test tests/contract.test.mjs tests/validation.test.mjs tests/worker.test.mjs",
+    "test:browser": "tsc -p tsconfig.json && node scripts/package.mjs --dev && node tests/browser.test.mjs",
+    "validate": "node scripts/lint.mjs && tsc -p tsconfig.json && node scripts/package.mjs && node --test tests/contract.test.mjs tests/validation.test.mjs tests/worker.test.mjs && tsc -p tsconfig.json && node scripts/package.mjs --dev && node tests/browser.test.mjs && node scripts/package.mjs",
+    "mock": "node mock/server.mjs",
+    "release:zip": "tsc -p tsconfig.json && node scripts/package.mjs && node scripts/release.mjs"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.300",
+    "playwright": "^1.64.0",
+    "sharp": "^0.35.5",
+    "typescript": "~5.9.3"
+  }
+}
